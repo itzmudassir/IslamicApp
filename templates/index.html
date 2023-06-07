@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Switches and Entries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(45deg, #FF6B6B, #7F00FF, #40E0D0);
+            background-image: url("https://cdn.pixabay.com/photo/2018/02/07/17/24/aurora-3132099_960_720.jpg");
+            background-blend-mode: overlay;
+            animation: gradientAnimation 10s infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        input[type="checkbox"],
+        input[type="text"] {
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Switches and Entries</h1>
+
+    <h2>Switches:</h2>
+    <label for="switch1">Switch 1</label>
+    <input type="checkbox" id="switch1">
+
+    <label for="switch2">Switch 2</label>
+    <input type="checkbox" id="switch2">
+
+    <label for="switch3">Switch 3</label>
+    <input type="checkbox" id="switch3">
+
+    <h2>Entries:</h2>
+    <label for="entry1">Entry 1</label>
+    <input type="text" id="entry1" onkeypress="moveToNextEntry(event, 2)">
+    <div class="hint">Hint: Enter a value for Entry 1</div>
+
+    <label for="entry2">Entry 2</label>
+    <input type="text" id="entry2" onkeypress="moveToNextEntry(event, 3)">
+    <div class="hint">Hint: Enter a value for Entry 2</div>
+
+    <label for="entry3">Entry 3</label>
+    <input type="text" id="entry3" onkeypress="moveToNextEntry(event, 4)">
+    <div class="hint">Hint: Enter a value for Entry 3</div>
+
+    <label for="entry4">Entry 4</label>
+    <input type="text" id="entry4" onkeypress="moveToNextEntry(event, 5)">
+    <div class="hint">Hint: Enter a value for Entry 4</div>
+
+    <label for="entry5">Entry 5</label>
+    <input type="text" id="entry5" onkeypress="moveToNextEntry(event, 6)">
+    <div class="hint">Hint: Enter a value for Entry 5</div>
+
+    <label for="entry6">Entry 6</label>
+    <input type="text" id="entry6" onkeypress="moveToNextEntry(event, 7)">
+    <div class="hint">Hint: Enter a value for Entry 6</div>
+
+    <label for="entry7">Entry 7</label>
+    <input type="text" id="entry7" onkeypress="moveToNextEntry(event, 8)">
+    <div class="hint">Hint: Enter a value for Entry 7</div>
+
+    <label for="entry8">Entry 8</label>
+    <input type="text" id="entry8" onkeypress="moveToNextEntry(event, 9)">
+    <div class="hint">Hint: Enter a value for Entry 8</div>
+
+    <label for="entry9">Entry 9</label>
+    <input type="text" id="entry9" onkeypress="moveToNextEntry(event, 10)">
+    <div class="hint">Hint: Enter a value for Entry 9</div>
+
+    <label for="entry10">Entry 10</label>
+    <input type="text" id="entry10" onkeypress="moveToNextEntry(event, 11)">
+    <div class="hint">Hint: Enter a value for Entry 10</div>
+
+    <div style="text-align: center;">
+        <button onclick="submitData()">Submit</button>
+    </div>
+
+    <script>
+        function moveToNextEntry(event, nextEntryIndex) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("entry" + nextEntryIndex).focus();
+            }
+        }
+
+        function submitData() {
+            var switch1State = document.getElementById("switch1").checked;
+            var switch2State = document.getElementById("switch2").checked;
+            var switch3State = document.getElementById("switch3").checked;
+
+            var entries = [];
+            for (var i = 1; i <= 10; i++) {
+                var entry = document.getElementById("entry" + i).value;
+                entries.push(entry);
+            }
+
+            var data = {
+                switch1: switch1State,
+                switch2: switch2State,
+                switch3: switch3State,
+                entries: entries
+            };
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
